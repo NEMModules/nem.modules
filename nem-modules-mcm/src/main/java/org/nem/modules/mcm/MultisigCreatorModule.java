@@ -6,7 +6,7 @@ import org.nem.core.time.TimeInstant;
 
 import java.util.concurrent.ExecutionException;
 
-public class MultisigCreatorModule {
+public class MultisigCreatorModule implements AutoCloseable {
 
 	public MultisigCreatorModule(
 			final MultisigOptions multisigOptions,
@@ -30,6 +30,11 @@ public class MultisigCreatorModule {
 	public void create() throws ExecutionException, InterruptedException {
 		this.creditFee();
 		this.convertToMultisig();
+	}
+
+	@Override
+	public void close() {
+		this.connector.close();
 	}
 
 	private void creditFee() throws ExecutionException, InterruptedException {

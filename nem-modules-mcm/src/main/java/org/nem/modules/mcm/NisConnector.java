@@ -12,15 +12,20 @@ import org.nem.core.time.synchronization.CommunicationTimeStamps;
 
 import java.util.concurrent.*;
 
-public class NisConnector {
+public class NisConnector implements AutoCloseable {
 
 	public NisConnector(final NodeEndpoint endpoint) {
 		this.endpoint = endpoint;
-		final HttpMethodClient<ErrorResponseDeserializerUnion> httpMethodClient = CreateHttpMethodClient();
+		this.httpMethodClient = CreateHttpMethodClient();
 		this.connector = new DefaultAsyncNemConnector<>(
-				httpMethodClient,
+				this.httpMethodClient,
 				r -> { throw new RuntimeException(r.getError()); });
 		this.connector.setAccountLookup(null);
+	}
+
+	@Override
+	public void close() {
+		this.httpMethodClient.close();
 	}
 
 	// region get
@@ -81,5 +86,6 @@ public class NisConnector {
 	}
 
 	private final NodeEndpoint endpoint;
+	private final HttpMethodClient<ErrorResponseDeserializerUnion> httpMethodClient;
 	private final DefaultAsyncNemConnector<String> connector;
 }

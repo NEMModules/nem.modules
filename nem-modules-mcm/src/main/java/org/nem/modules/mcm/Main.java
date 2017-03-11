@@ -24,11 +24,11 @@ public class Main {
 
 		ConsolePrinter.PrintOptions(multisigOptions);
 
-		final MultisigCreatorModule module = new MultisigCreatorModule(multisigOptions, 4);
-
-		System.out.println("> creating multisig account");
-		ConsolePrinter.PrintAccount(module.multisigKeyPair());
-		module.create();
+		try (final MultisigCreatorModule module = new MultisigCreatorModule(multisigOptions, 4)) {
+			System.out.println("> creating multisig account");
+			ConsolePrinter.PrintAccount(module.multisigKeyPair());
+			module.create();
+		}
 
 		System.out.println("> done!");
 	}
