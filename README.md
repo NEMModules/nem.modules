@@ -15,12 +15,14 @@ Creates a new multisig account given the desired cosigners and a funding account
 
 usage:
 
+	cd nem-modules-mcm
+
     $publicKey1 = <hex-string>
     $publicKey2 = <hex-string>
     $publicKey3 = <hex-string>
     $fundingPrivateKey = <hex-string>
 
-    nem-modules-mcm-0.6.84-BETA.jar \
+    java -cp "target/nem-modules-mcm-0.6.84-BETA.jar:target/clientlibs/*" org.nem.modules.mcm.Main \
         -n 3 -m 2 -cosigners $publicKey1 $publicKey2 $publicKey3 \
         -signer $fundingPrivateKey \
         -host 37.187.70.29 -port 7890
